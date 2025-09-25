@@ -29,12 +29,25 @@ and maximize your score.
 
 ## Parts
 
-### Part 1: ___ (1 point)
+### Part 1: Setup Python Package (1 point)
 
 * Objective:
-  ___
+  Turn your repo into a pip-installable python package with unit
+  tests.
 * Details:
-  ___
+  * Just like HW1 and HW2, create "pyproject.toml" and add a "LICENSE"
+    file to this repository.
+    This turns your homework set into a pip-installable python
+    package, i.e., `pip install -e .` should work.
+  * Add also a directory call `tests` and add a file `tests/t1.py` in
+    it.
+    Implement `test_import()` in `tests/t1.py` to make sure you can
+    import hw3.
+    You may look at how the
+    [same test](https://github.com/ua-2025q3-astr501-513/hw2/blob/main/.github/autograding/test-p1.py)
+    was done in hw1 and 2.
+  * Properly organize source code, tests, and documentations.
+
 
 ### Part 2: ___ (1 point)
 
