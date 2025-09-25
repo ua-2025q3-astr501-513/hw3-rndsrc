@@ -90,12 +90,17 @@ and maximize your score.
   * Verify on a single harmonic oscillator (compare with known
     analytic ODE).
 
-### Part 4: ___ (1 point)
+### Part 4: Double Pendulum Lagrangian (1 point)
 
 * Objective:
-  ___
+  Implement and solve the Euler-Lagrange equations for a
+  two-dimensional double pendulum.
 * Details:
-  ___
+  * Define the Lagrangian
+  * Use your `EL()` function (Part 3) to derive the equations of
+    motion.
+  * Integrate the system with your `RK4()` solver (Part 2).
+  * Add tests to check energy conservation and symmetry.
 
 ### Part 5: ___ (1 point)
 
