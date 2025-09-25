@@ -48,7 +48,6 @@ and maximize your score.
     was done in hw1 and 2.
   * Properly organize source code, tests, and documentations.
 
-
 ### Part 2: Implement RK4 Integrator (1 point)
 
 * Objective:
@@ -102,12 +101,21 @@ and maximize your score.
   * Integrate the system with your `RK4()` solver (Part 2).
   * Add tests to check energy conservation and symmetry.
 
-### Part 5: ___ (1 point)
+### Part 5: Create a Movie (1 point)
 
 * Objective:
-  ___
+  Combine everything into a Python script that generates an animation
+  of the system.
 * Details:
-  ___
+  * Write a script that:
+    1. Accepts initial conditions for $(x,y,\dot{x},\dot{y})$.
+    2. Evolves the double pendulum using your RK4 integrator.
+    3. Produces a movie (e.g., using
+       matplotlib.animation.FuncAnimation) showing the trajectories.
+  * Function prototype:
+    ```bash
+    double_pendulum x0=1 y0=0.5 vx0=0 vy0=0 t=20 dt=0.01 output="movie.mp4"
+    ```
 
 
 ## Submission Guidelines
