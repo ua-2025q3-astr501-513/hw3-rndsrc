@@ -57,23 +57,38 @@ and maximize your score.
   * Function prototype:
     ```python
     def RK4(
-        f,  # the right hand side of the differential equation $dx/dt = f$
-	x,  # the dependent variable $x(t)$
-	t,  # the independent variable $t$
-	dt, # the full step size
-	n,  # how many steps you need to run
+        f,   # the right hand side of the differential equation $dx/dt = f$
+	x0,  # the initial dependent variable $x(t=t_0)$
+	t0,  # the initial independent variable $t_0$
+	dt,  # the (full) step size
+	nt,  # how many steps you need to run
     ): ...
     ```
   * Demonstrate correctness by integrating a 1D harmonic oscillator
     and comparing against the analytic solution.
   * Add `tests/test-p1.py` to confirm behavior.
 
-### Part 3: ___ (1 point)
+### Part 3: Euler-Lagrange via Autodiff (1 point)
 
 * Objective:
-  ___
+  Use JAX automatic differentiation to obtain Euler-Lagrange equations
+  from a given Lagrangian.
 * Details:
-  ___
+  * Write a function:
+    ```python
+    def EL(L, q, qdot):
+        ...
+    ```
+    where `L(q, qdot)` is a user-supplied Python function implementing
+    the Lagrangian, and `q`, `qdot` are generalized coordinates and
+    velocities.
+  * Use `jax.grad` to compute the necessary derivatives for the
+    Euler-Lagrange equation:
+    \begin{align}
+      \frac{d}{dt}\frac{\partial L}{\partial\dot{q}} - \frac{\partial L}{\partial q} = 0
+    \end{align}
+  * Verify on a single harmonic oscillator (compare with known
+    analytic ODE).
 
 ### Part 4: ___ (1 point)
 
