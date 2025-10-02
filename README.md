@@ -41,27 +41,28 @@ and maximize your score.
     ```
   * Organize your code in a `hw3/` directory with a clear module
     layout.
-  * Include documentation (e.g., updatre this `README.md`) so that
-    your package is self-contained and easy to use.
+  * Include documentation (e.g., update this `README.md`) so that your
+    package is self-contained and easy to use.
 
 ### Part 2: RK4 Integrator (1 point)
 
 * Objective:
-  Implement a reusable 4th-order Runge–Kutta (RK4) integrator for
+  Implement a reusable 4th-order Runge-Kutta (RK4) integrator for
   systems of ODEs.
 * Details:
   * Function prototype:
     ```python
     def RK4(
-        f,   # right-hand side function: dx/dt = f(t, x)
+        f,   # right-hand side function: dx/dt = f(x)
         x0,  # initial state vector x(t0)
         t0,  # initial time t0
         dt,  # timestep size
         nt,  # number of steps to evolve
     ):
-    ...
+        ...
     ```
-  * Return arrays of times and states for all integration steps.
+  * Return arrays of times and states (`x`) for all integration steps.
+    I.e., "history" in our lecture notes.
   * Demonstrate correctness by integrating a simple harmonic
     oscillator and comparing with the analytic solution.
     (You may do it in a `demo.ipynb` and submit it together with this
@@ -70,7 +71,7 @@ and maximize your score.
 ### Part 3: Euler-Lagrange Equation via Autodiff (1 point)
 
 * Objective:
-  Use JAX automatic differentiation to derive Euler–Lagrange equations
+  Use JAX automatic differentiation to derive Euler-Lagrange equations
   from an input Lagrangian.
 * Details:
   * Function prototype:
@@ -83,9 +84,12 @@ and maximize your score.
 
   * Use `jax.grad()` to compute the necessary derivatives for the
     Euler-Lagrange equation:
-    \begin{align}
-      \frac{d}{dt}\frac{\partial L}{\partial\dot{q}} - \frac{\partial L}{\partial q} = 0
-    \end{align}
+
+    $$\frac{d}{dt}\frac{\partial L}{\partial\dot{q}} - \frac{\partial L}{\partial q} = 0.$$
+
+    You may need to read
+    [JAX's documentation](https://docs.jax.dev/en/latest/_autosummary/jax.grad.html)
+    to make it work.
   * Verify correctness on a single harmonic oscillator and confirm
     that the derived ODE matches the known analytic form.
     (You may do it in a `demo.ipynb` and submit it together with this
@@ -96,16 +100,18 @@ and maximize your score.
 * Objective:
   Implement and solve the Lagrangian of a doublea pendulum problem.
 * Details:
-
   * Define the Lagrangian of a two-dimensional double pendulum
     problem.
-    Let's use the notations $theta1$ and $theta2$ in
+    Let's use the notations $\theta1$ and $\theta2$ in
     [wikipedia](https://en.wikipedia.org/wiki/Double_pendulum)
     and implement
-    \begin{align}
-      L = \frac{1}{6} ml^2 (\dot\theta_2^2 + 4\dot\theta_1^2 + 3\dot\theta_1\dot\theta_2\cos(\theta_1-\theta_2))
-        + \frac{1}{2} mgl  (3\cos\theta_1 + \cos\theta_2)
-    \end{align}
+
+    $$L = \frac{1}{6} ml^2 \Big[\dot\theta_2^2
+                             + 4\dot\theta_1^2
+			     + 3\dot\theta_1\dot\theta_2\cos(\theta_1-\theta_2)\Big]
+        + \frac{1}{2} mgl  \Big[3\cos\theta_1 + \cos\theta_2\Big].$$
+
+    Please check the above carefully as it may contain typos.
   * Use your `EL()` function (Part 3) to derive the equations of
     motion.
   * Integrate the system with your `RK4()` solver (Part 2).
@@ -124,11 +130,14 @@ and maximize your score.
        `matplotlib.animation.FuncAnimation()`) showing the double
        pendulum.
   * Install your script as an executable scirpt.
-    See [this link](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#creating-executable-scripts).
+    See
+    [this link](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#creating-executable-scripts).
   * Script prototype:
     ```bash
     double_pendulum x0=1 y0=0.5 vx0=0 vy0=0 t=20 dt=0.01 output="movie.mp4"
     ```
+  * You may use python
+    [Click](https://click.palletsprojects.com/en/stable/).
 
 
 ## Submission Guidelines
