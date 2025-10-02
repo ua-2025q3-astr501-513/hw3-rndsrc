@@ -19,7 +19,7 @@ jobs:
       with:
         test-name: p1
         setup-command: pip install -e .
-        command: bash .github/autograding/test-p1.sh
+        command: pytest -s .github/autograding/test-p1.py
         timeout: 10
         max-score: 1
     - name: p2
