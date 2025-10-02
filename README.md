@@ -29,90 +29,103 @@ and maximize your score.
 
 ## Parts
 
-### Part 1: Setup Python Package (1 point)
+### Part 1: Package Setup (1 point)
 
 * Objective:
-  Turn your repo into a pip-installable python package with unit
-  tests.
+  Turn your repository into a pip-installable Python package.
 * Details:
-  * Just like HW1 and HW2, create "pyproject.toml" and add a "LICENSE"
-    file to this repository.
-    This turns your homework set into a pip-installable python
-    package, i.e., `pip install -e .` should work.
-  * Add also a directory call `tests` and add a file
-    `tests/test-p1.py` in it.
-    Implement `test_import()` in `tests/test-p1.py` to make sure you
-    can `import hw3`.
-    You may look at how a
-    [similar test](https://github.com/ua-2025q3-astr501-513/hw2/blob/main/.github/autograding/test-p1.py)
-    was done in hw1 and 2.
-  * Properly organize source code, tests, and documentations.
+  * As in HW1 and HW2, create a pyproject.toml and add a LICENSE file.
+    This allows you to install your homework with:
+    ```bash
+    pip install -e .
+    ```
+  * Organize your code in a `hw3/` directory with a clear module
+    layout.
+  * Include documentation (e.g., updatre this `README.md`) so that
+    your package is self-contained and easy to use.
 
-### Part 2: Implement RK4 Integrator (1 point)
+### Part 2: RK4 Integrator (1 point)
 
 * Objective:
-  Implement a reusable 4th-order Runge–Kutta (RK4) integrator for systems of ODEs.
+  Implement a reusable 4th-order Runge–Kutta (RK4) integrator for
+  systems of ODEs.
 * Details:
   * Function prototype:
     ```python
     def RK4(
-        f,   # the right hand side of the differential equation $dx/dt = f$
-	x0,  # the initial dependent variable $x(t=t_0)$
-	t0,  # the initial independent variable $t_0$
-	dt,  # the (full) step size
-	nt,  # how many steps you need to run
-    ): ...
+        f,   # right-hand side function: dx/dt = f(t, x)
+        x0,  # initial state vector x(t0)
+        t0,  # initial time t0
+        dt,  # timestep size
+        nt,  # number of steps to evolve
+    ):
+    ...
     ```
-  * Demonstrate correctness by integrating a 1D harmonic oscillator
-    and comparing against the analytic solution.
-  * Add `tests/test-p1.py` to confirm behavior.
+  * Return arrays of times and states for all integration steps.
+  * Demonstrate correctness by integrating a simple harmonic
+    oscillator and comparing with the analytic solution.
+    (You may do it in a `demo.ipynb` and submit it together with this
+    package.)
 
-### Part 3: Euler-Lagrange via Autodiff (1 point)
+### Part 3: Euler-Lagrange Equation via Autodiff (1 point)
 
 * Objective:
-  Use JAX automatic differentiation to obtain Euler-Lagrange equations
-  from a given Lagrangian.
+  Use JAX automatic differentiation to derive Euler–Lagrange equations
+  from an input Lagrangian.
 * Details:
-  * Write a function:
+  * Function prototype:
     ```python
     def EL(L, q, qdot):
         ...
     ```
-    where `L(q, qdot)` is a user-supplied Python function implementing
-    the Lagrangian, and `q`, `qdot` are generalized coordinates and
-    velocities.
-  * Use `jax.grad` to compute the necessary derivatives for the
+    where `L(q, qdot)` is a Python function defining the Lagrangian,
+    and `q`, `qdot` are generalized coordinates and velocities.
+
+  * Use `jax.grad()` to compute the necessary derivatives for the
     Euler-Lagrange equation:
     \begin{align}
       \frac{d}{dt}\frac{\partial L}{\partial\dot{q}} - \frac{\partial L}{\partial q} = 0
     \end{align}
-  * Verify on a single harmonic oscillator (compare with known
-    analytic ODE).
+  * Verify correctness on a single harmonic oscillator and confirm
+    that the derived ODE matches the known analytic form.
+    (You may do it in a `demo.ipynb` and submit it together with this
+    package.)
 
 ### Part 4: Double Pendulum Lagrangian (1 point)
 
 * Objective:
-  Implement and solve the Euler-Lagrange equations for a
-  two-dimensional double pendulum.
+  Implement and solve the Lagrangian of a doublea pendulum problem.
 * Details:
-  * Define the Lagrangian
+
+  * Define the Lagrangian of a two-dimensional double pendulum
+    problem.
+    Let's use the notations $theta1$ and $theta2$ in
+    [wikipedia](https://en.wikipedia.org/wiki/Double_pendulum)
+    and implement
+    \begin{align}
+      L = \frac{1}{6} ml^2 (\dot\theta_2^2 + 4\dot\theta_1^2 + 3\dot\theta_1\dot\theta_2\cos(\theta_1-\theta_2))
+        + \frac{1}{2} mgl  (3\cos\theta_1 + \cos\theta_2)
+    \end{align}
   * Use your `EL()` function (Part 3) to derive the equations of
     motion.
   * Integrate the system with your `RK4()` solver (Part 2).
-  * Add tests to check energy conservation and symmetry.
 
 ### Part 5: Create a Movie (1 point)
 
 * Objective:
   Combine everything into a Python script that generates an animation
-  of the system.
+  of the double pendulum.
 * Details:
   * Write a script that:
-    1. Accepts initial conditions for $(x,y,\dot{x},\dot{y})$.
-    2. Evolves the double pendulum using your RK4 integrator.
+    1. Accepts initial conditions for
+       $(\theta_1,\theta_2,\dot\theta_1,\dot\theta_2)$.
+    2. Evolves the double pendulum using your `RK4()` integrator.
     3. Produces a movie (e.g., using
-       matplotlib.animation.FuncAnimation) showing the trajectories.
-  * Function prototype:
+       `matplotlib.animation.FuncAnimation()`) showing the double
+       pendulum.
+  * Install your script as an executable scirpt.
+    See [this link](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#creating-executable-scripts).
+  * Script prototype:
     ```bash
     double_pendulum x0=1 y0=0.5 vx0=0 vy0=0 t=20 dt=0.01 output="movie.mp4"
     ```
