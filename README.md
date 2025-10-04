@@ -54,19 +54,18 @@ and maximize your score.
     ```python
     def RK4(
         f,   # right-hand side function: dx/dt = f(x)
-        x0,  # initial state vector x(t0)
-        t0,  # initial time t0
+        x,   # initial state vector x(t0)
+        t,   # initial time t0
         dt,  # timestep size
-        nt,  # number of steps to evolve
+        n,   # number of steps to evolve
     ):
         ...
     ```
-  * Return arrays of times and states (`x`) for all integration steps.
-    I.e., "history" in our lecture notes.
+  * Return arrays of states (`X`) and times (`T`) for all integration
+    steps.  I.e., "history" in our lecture notes.
   * Demonstrate correctness by integrating a simple harmonic
     oscillator and comparing with the analytic solution.
-    (You may do it in a `demo.ipynb` and submit it together with this
-    package.)
+    See `demo.ipynb`.
 
 ### Part 3: Euler-Lagrange Equation via Autodiff (1 point)
 
@@ -76,14 +75,18 @@ and maximize your score.
 * Details:
   * Function prototype:
     ```python
-    def EL(L, q, qdot):
+    def ELrhs(L):
         ...
     ```
-    where `L(q, qdot)` is a Python function defining the Lagrangian,
-    and `q`, `qdot` are generalized coordinates and velocities.
-
-  * Use `jax.grad()` to compute the necessary derivatives for the
-    Euler-Lagrange equation:
+    where `L(x, v)` is a Python function defining the Lagrangian, and
+    `x`, `v` are generalized coordinates and velocities.
+  * `ELrhs(L)` should return a function `def rhs(xv): ...` where where
+    `xv` is the concatenated state `[x, v]`, and the output is
+    `[v, a]` (velocities and "accelerations").
+    This is possible because python supports functional programming.
+    Functions are "first-class citizens" in python.
+  * Use `jax.grad()` and `jax.jacfwd()` to compute the necessary
+    derivatives for the Euler-Lagrange equation:
 
     $$\frac{d}{dt}\frac{\partial L}{\partial\dot{q}} - \frac{\partial L}{\partial q} = 0.$$
 
@@ -92,8 +95,7 @@ and maximize your score.
     to make it work.
   * Verify correctness on a single harmonic oscillator and confirm
     that the derived ODE matches the known analytic form.
-    (You may do it in a `demo.ipynb` and submit it together with this
-    package.)
+    See `demo.ipynb`.
 
 ### Part 4: Double Pendulum Lagrangian (1 point)
 
@@ -101,43 +103,49 @@ and maximize your score.
   Implement and solve the Lagrangian of a doublea pendulum problem.
 * Details:
   * Define the Lagrangian of a two-dimensional double pendulum
-    problem.
-    Let's use the notations $\theta1$ and $\theta2$ in
+    problem
+    ```python
+    def L(x, v):
+        ...
+    ```
+    where `x = [theta1, theta2]` and `v = [omega1, omega2]`.
+  * The notations $\theta_1$ and $\theta_2$ follow
     [wikipedia](https://en.wikipedia.org/wiki/Double_pendulum)
-    and implement
+    so we simply implement
 
     $$L = \frac{1}{6} ml^2 \Big[\dot\theta_2^2
                              + 4\dot\theta_1^2
-			     + 3\dot\theta_1\dot\theta_2\cos(\theta_1-\theta_2)\Big]
+                             + 3\dot\theta_1\dot\theta_2\cos(\theta_1-\theta_2)\Big]
         + \frac{1}{2} mgl  \Big[3\cos\theta_1 + \cos\theta_2\Big].$$
-
-    Please check the above carefully as it may contain typos.
-  * Use your `EL()` function (Part 3) to derive the equations of
-    motion.
-  * Integrate the system with your `RK4()` solver (Part 2).
+    Please check the above equation carefully as it may contain typos.
+  * This Lagrangian will be passed to `ELrhs()` (Part 3) to generate
+    equations of motion automatically.
 
 ### Part 5: Create a Movie (1 point)
 
 * Objective:
-  Combine everything into a Python script that generates an animation
-  of the double pendulum.
+  Put everything together to solve the double pendulum problem.
 * Details:
-  * Write a script that:
-    1. Accepts initial conditions for
-       $(\theta_1,\theta_2,\dot\theta_1,\dot\theta_2)$.
-    2. Evolves the double pendulum using your `RK4()` integrator.
-    3. Produces a movie (e.g., using
-       `matplotlib.animation.FuncAnimation()`) showing the double
-       pendulum.
-  * Install your script as an executable scirpt.
-    See
-    [this link](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#creating-executable-scripts).
-  * Script prototype:
-    ```bash
-    double_pendulum x0=1 y0=0.5 vx0=0 vy0=0 t=20 dt=0.01 output="movie.mp4"
+  * Implement:
+    ```python
+    def solve(
+        theta1, # initial angle for pendulum 1
+        theta2, # initial angle for pendulum 2
+        omega1, # initial angular velocity for pendulum 1
+        omega2, # initial angular velocity for pendulum 2
+        t,      # total simulation time
+        dt,     # time step size
+    ):
+        ...
     ```
-  * You may use python
-    [Click](https://click.palletsprojects.com/en/stable/).
+  * Use `L()` from Part 4 as the Lagrangian.
+  * Use `ELrhs()` from Part 3 to get the right-hand side.
+  * Use `RK4()` from Part 2 to integrate the system.
+  * Return the tuple `X, V, T`, where:
+    * `X`: array of angles over time with shape `(n+1, 2)`.
+    * `V`: array of angular velocities with shape `(n+1, 2)`.
+    * `T`: array of times with shape `(n+1,)`.
+  * See `demo.ipynb`.
 
 
 ## Submission Guidelines
