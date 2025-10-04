@@ -3,7 +3,7 @@
 Welcome to the repository for **Homework Set #3** in ASTR 513.
 This homework set is worth **5 points** and is designed to test your
 understanding of topics that we covered in the first three classes.
-The submission cutoff time is at **Friday Oct 10th, 11:59pm** Arizona
+The submission cutoff time is at **Friday Oct 17th, 11:59pm** Arizona
 time.
 Use this GitHub Classroom Link:
 https://classroom.github.com/a/7xV0a93o
