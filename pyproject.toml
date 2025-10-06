@@ -1,0 +1,4 @@
+[project]
+name = "hw3"
+version = "0.0.0"
+dependencies = ["jax", "pytest"]
